@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }else {
     // Si el método de solicitud no es POST, redireccionar a la página de formulario
-    header("Location: index.php");
+    header("Location: index.html");
     exit();
 }
 
