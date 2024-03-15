@@ -3,7 +3,7 @@ body {
     margin: 0;
     padding: 0;
     color: white;
-    background-image: url("fondo.jpg");
+    background-image: url("../img/fondo.jpg");
     background-repeat: no-repeat;
     background-size: cover; 
 }
