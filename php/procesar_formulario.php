@@ -29,13 +29,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($enviado_destinatario && $enviado_remitente) {
         // Mostrar una alerta emergente de "Enviado correctamente"
         echo '<script>alert("Formulario enviado correctamente");</script>';
+        header("Location: ../index.hmtl");
     } else {
         // Si hubo un error al enviar los correos electrónicos, muestra un mensaje de error
         echo '<script>alert("Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.");</script>';
+        header("Location: ../index.hmtl");
     }
 }else {
     // Si el método de solicitud no es POST, redireccionar a la página de formulario
-    header("Location: index.html");
+    header("Location: ../index.html");
     exit();
 }
 
