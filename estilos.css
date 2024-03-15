@@ -1,0 +1,96 @@
+body {
+    font-family: 'Press Start 2P', cursive;
+    margin: 0;
+    padding: 0;
+    color: white;
+    background-image: url("fondo.jpg");
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+
+.container {
+    width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.5); 
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+
+.title {
+    text-align: center;
+    font-size: 40px;
+    color: #007bff; 
+    text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Sombra de texto */
+    animation: neon 1.5s ease-in-out infinite alternate; /* Animación de texto neón */
+}
+
+@keyframes neon {
+    from {
+        text-shadow: 0 0 5px #44b9e7, 0 0 10px #44b9e7, 0 0 15px #44b9e7, 0 0 20px #44b9e7, 0 0 35px #44b9e7, 0 0 40px #44b9e7, 0 0 50px #44b9e7, 0 0 75px #44b9e7;
+    }
+    to {
+        text-shadow: 0 0 2px #44b9e7, 0 0 4px #44b9e7, 0 0 6px #44b9e7, 0 0 8px #44b9e7, 0 0 14px #44b9e7, 0 0 16px #44b9e7, 0 0 20px #44b9e7, 0 0 30px #44b9e7;
+    }
+}
+
+.label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 20px;
+    
+    text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; /* Sombra de texto */
+    animation: neon2 1.5s ease-in-out infinite alternate; /* Animación de texto neón */
+}
+@keyframes neon2 {
+    from {
+        text-shadow: 0 0 5px #44b9e7, 0 0 10px #44b9e7, 0 0 15px #44b9e7, 0 0 20px #44b9e7, 0 0 35px #44b9e7, 0 0 40px #44b9e7, 0 0 50px #44b9e7, 0 0 75px #44b9e7;
+    }
+    to {
+        text-shadow: 0 0 2px #44b9e7, 0 0 4px #44b9e7, 0 0 6px #44b9e7, 0 0 8px #44b9e7, 0 0 14px #44b9e7, 0 0 16px #44b9e7, 0 0 20px #44b9e7, 0 0 30px #44b9e7;
+    }
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ff5733; /* Color naranja */
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+    color: white;
+}
+
+textarea {
+    height: 150px;
+}
+
+input[type="submit"].boton {
+    background-color: #276824; 
+    color: #fff; 
+    border: 2px solid #135e39; 
+    border-radius: 5px; 
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer; 
+    font-family: 'Press Start 2P', cursive; 
+    transition: all 0.3s ease; 
+    display: block; 
+    margin: 0 auto; 
+}
+
+input[type="submit"].boton:hover {
+    background-color: #4fe22a; 
+    border-color: #22f806; 
+}
