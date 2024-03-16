@@ -1,4 +1,11 @@
 <?php
+require '../PHPMailer/Exception.php';
+require '../PHPMailer/PHPMailer.php';
+require '../to/PHPMailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Variables del formulario
@@ -6,38 +13,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $asunto = $_POST["asunto"];
     $mensaje = $_POST["mensaje"];
-
-    // Dirección de correo electrónico a la que enviar el formulario
-    $destinatario = "tucorreo@dominio.com"; // Reemplaza con tu dirección de correo electrónico
-
-    // Dirección de correo electrónico del remitente (para el campo "Reply-To" o "From")
-    $remitente = $email;
-
-    // Construir el mensaje
-    $contenido = "Nombre: $nombre\n";
-    $contenido .= "Email: $email\n";
-    $contenido .= "Asunto: $asunto\n";
-    $contenido .= "Mensaje:\n$mensaje\n";
-
-    // Enviar correo electrónico al destinatario principal
-    $enviado_destinatario = mail($destinatario, $asunto, $contenido);
-
-    // Enviar una copia del correo electrónico al remitente
-    $enviado_remitente = mail($remitente, $asunto, $contenido);
-
-    // Comprobar si se enviaron ambos correos electrónicos correctamente
-    if ($enviado_destinatario && $enviado_remitente) {
-        // Mostrar una alerta emergente de "Enviado correctamente"
+    
+    // Configuración de correo electrónico
+    $mail = new PHPMailer(true);
+    try {
+        // Configuración del servidor SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.zoho.com'; // Servidor SMTP de Zoho Mail
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'josueccenta@creativiq.site'; // Tu dirección de correo electrónico de Zoho Mail
+        $mail->Password   = 'V8s1600gzINR'; // Tu contraseña de Zoho Mail
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587; // Puerto SMTP de Zoho Mail
+        
+        // Destinatario principal
+        $mail->setFrom($email, $nombre);
+        $mail->addAddress('josueccenta@creativiq.site', 'GRUPO 1'); // Dirección de correo electrónico del destinatario principal
+        
+        // Construir el mensaje
+        $mail->isHTML(true);
+        $mail->Subject = $asunto;
+        $mail->Body    = $mensaje;
+        
+        // Enviar correo electrónico
+        $mail->send();
+        
+        // Mostrar alerta de éxito
         echo '<script>alert("Formulario enviado correctamente");</script>';
         header("Location: ../index.html");
-    } else {
-        // Si hubo un error al enviar los correos electrónicos, muestra un mensaje de error
+    } catch (Exception $e) {
+        // Mostrar alerta de error
         echo '<script>alert("Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.");</script>';
         header("Location: ../index.html");
     }
-}else {
-    // Si el método de solicitud no es POST, redireccionar a la página de formulario
+} else {
+    // Redireccionar si el método de solicitud no es POST
     header("Location: ../index.html");
     exit();
 }
-
