@@ -1,7 +1,7 @@
 <?php
 require '../PHPMailer/Exception.php';
 require '../PHPMailer/PHPMailer.php';
-require '../to/PHPMailer/SMTP.php';
+require '../PHPMailer/SMTP.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Host       = 'smtp.zoho.com'; // Servidor SMTP de Zoho Mail
         $mail->SMTPAuth   = true;
         $mail->Username   = 'josueccenta@creativiq.site'; // Tu dirección de correo electrónico de Zoho Mail
-        $mail->Password   = 'V8s1600gzINR'; // Tu contraseña de Zoho Mail
+        $mail->Password   = 'z5gJtze1UAsy'; // Tu contraseña de Zoho Mail
         $mail->SMTPSecure = 'tls';
         $mail->Port       = 587; // Puerto SMTP de Zoho Mail
         
@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Mostrar alerta de éxito
         echo '<script>alert("Formulario enviado correctamente");</script>';
         header("Location: ../index.html");
-    } catch (Exception $e) {
+    } catch (Exception $e) { 
         // Mostrar alerta de error
         echo '<script>alert("Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.");</script>';
         header("Location: ../index.html");
