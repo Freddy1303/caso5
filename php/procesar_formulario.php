@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $asunto = $_POST["asunto"];
     $mensaje = $_POST["mensaje"];
+
     
     // Configuración de correo electrónico
     $mail = new PHPMailer(true);
@@ -27,8 +28,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Port       = 587; // Puerto SMTP de Zoho Mail
         
         // Destinatario principal
-        $mail->setFrom($email, $nombre);
-        $mail->addAddress('josueccenta@creativiq.site', 'GRUPO 1'); // Dirección de correo electrónico del destinatario principal
+        $mail->setFrom('josueccenta@creativiq.site', 'GRUPO 1');
+        $mail->addAddress($email,$nombre ); // Dirección de correo electrónico del destinatario principal
+        $mail->addCC($email);
         
         // Construir el mensaje
         $mail->isHTML(true);
@@ -51,3 +53,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../index.html");
     exit();
 }
+?>
