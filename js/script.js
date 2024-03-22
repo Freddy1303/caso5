@@ -1,4 +1,3 @@
-// script.js
 document.getElementById('contactForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Evita el comportamiento predeterminado del formulario
     
@@ -14,10 +13,18 @@ document.getElementById('contactForm').addEventListener('submit', function(event
             var response = JSON.parse(xhr.responseText);
             if (response.status === 'success') {
                 // Muestra un SweetAlert de éxito
-                Swal.fire('Éxito', response.message, 'success');
+                Swal.fire({
+                    title: 'Éxito',
+                    text: response.message,
+                    icon: 'success'
+                });
             } else {
                 // Muestra un SweetAlert de error si hay algún problema
-                Swal.fire('Error', response.message, 'error');
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message,
+                    icon: 'error'
+                });
             }
         }
     };
