@@ -10,14 +10,14 @@ document.getElementById('contactForm').addEventListener('submit', function(event
     
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 400) {
-            // Maneja la respuesta del servidor (opcional)
+            // Maneja la respuesta del servidor
             var response = JSON.parse(xhr.responseText);
             if (response.status === 'success') {
                 // Muestra un SweetAlert de éxito
-                Swal.fire('Éxito', '¡Formulario enviado correctamente!', 'success');
+                Swal.fire('Éxito', response.message, 'success');
             } else {
                 // Muestra un SweetAlert de error si hay algún problema
-                Swal.fire('Error', 'Hubo un problema al enviar el formulario', 'error');
+                Swal.fire('Error', response.message, 'error');
             }
         }
     };

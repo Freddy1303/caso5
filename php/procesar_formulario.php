@@ -7,6 +7,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
+// Array para almacenar la respuesta
+$response = array();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Variables del formulario
     $nombre = $_POST["nombre"];
@@ -14,6 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $asunto = $_POST["asunto"];
     $mensaje = $_POST["mensaje"];
 
+    // Verifica si se cargó un archivo
+    if (isset($_FILES['adjunto']) && $_FILES['adjunto']['error'] === UPLOAD_ERR_OK) {
+        // Ruta temporal del archivo cargado
+        $adjunto_tmp = $_FILES['adjunto']['tmp_name'];
+
+        // Nombre del archivo original
+        $adjunto_nombre = $_FILES['adjunto']['name'];
+    }
     
     // Configuración de correo electrónico
     $mail = new PHPMailer(true);
@@ -29,32 +40,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Destinatario principal
         $mail->setFrom('josueccenta@creativiq.site', 'GRUPO 1');
-        $mail->addAddress($email,$nombre ); // Dirección de correo electrónico del destinatario principal
+        $mail->addAddress($email, $nombre); // Dirección de correo electrónico del destinatario principal
         $mail->addCC($email);
         
         // Construir el mensaje
         $mail->isHTML(true);
         $mail->Subject = $asunto;
         $mail->Body    = $mensaje;
+
+        // Agrega el archivo adjunto al correo electrónico, si se proporcionó uno
+        if (isset($adjunto_tmp) && isset($adjunto_nombre)) {
+            $mail->addAttachment($adjunto_tmp, $adjunto_nombre);
+        }
         
         // Enviar correo electrónico
         $mail->send();
         
-        // Mostrar alerta de éxito
-        echo '<script>alert("Formulario enviado correctamente");</script>';
-        header("Location: ../index.html");
+        // Agregar información de éxito a la respuesta
+        $response['status'] = 'success';
+        $response['message'] = 'Formulario enviado correctamente';
     } catch (Exception $e) { 
-        // Mostrar alerta de error
-        echo '<script>alert("Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.");</script>';
-        header("Location: ../index.html");
+        // Agregar información de error a la respuesta
+        $response['status'] = 'error';
+        $response['message'] = 'Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.';
     }
 } else {
-    // Redireccionar si el método de solicitud no es POST
-    header("Location: ../index.html");
-    exit();
+    // Si el formulario no fue enviado por POST, agregar información de error a la respuesta
+    $response['status'] = 'error';
+    $response['message'] = 'El formulario no se envió correctamente.';
 }
 
-$response = array('status' => 'success');
+// Devolver la respuesta como JSON
 echo json_encode($response);
-
 ?>
