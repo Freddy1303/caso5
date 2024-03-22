@@ -53,4 +53,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: ../index.html");
     exit();
 }
+
+$response = array('status' => 'success');
+echo json_encode($response);
+
 ?>
