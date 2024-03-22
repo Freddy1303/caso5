@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->SMTPAuth   = true;
         $mail->Username   = 'josueccenta@creativiq.site'; // Tu dirección de correo electrónico de Zoho Mail
         $mail->Password   = 'z5gJtze1UAsy'; // Tu contraseña de Zoho Mail
-        $mail->SMTPSecure = 'tls';
-        $mail->Port       = 587; // Puerto SMTP de Zoho Mail
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port       = 465; // Puerto SMTP de Zoho Mail
         
         // Destinatario principal
         $mail->setFrom('josueccenta@creativiq.site', 'GRUPO 1');
@@ -55,14 +55,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Enviar correo electrónico
         $mail->send();
-        
+
         // Agregar información de éxito a la respuesta
         $response['status'] = 'success';
         $response['message'] = 'Formulario enviado correctamente';
     } catch (Exception $e) { 
         // Agregar información de error a la respuesta
         $response['status'] = 'error';
-        $response['message'] = 'Error al enviar el formulario. Por favor, inténtalo de nuevo más tarde.';
+        $response['message'] = 'Error al enviar el formulario: ' . $mail->ErrorInfo;
     }
 } else {
     // Si el formulario no fue enviado por POST, agregar información de error a la respuesta
