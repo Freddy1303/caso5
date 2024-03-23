@@ -1,11 +1,11 @@
 <?php
-require '../PHPMailer/Exception.php';
-require '../PHPMailer/PHPMailer.php';
-require '../PHPMailer/SMTP.php';
+require '../MailerSend/MailerSend.php';
+require '../MailerSend/Helpers/Builder/EmailParams.php';
+require '../MailerSend/Helpers/Builder/Recipient.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
-use PHPMailer\PHPMailer\Exception;
+use MailerSend\MailerSend;
+use MailerSend\Helpers\Builder\Recipient;
+use MailerSend\Helpers\Builder\EmailParams;
 
 // Array para almacenar la respuesta
 $response = array();
@@ -25,44 +25,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Nombre del archivo original
         $adjunto_nombre = $_FILES['adjunto']['name'];
     }
-    
-    // Configuración de correo electrónico
-    $mail = new PHPMailer(true);
+
+    // Configuración de MailerSend
+    $mailerSend = new MailerSend(['api_key' => 'your_api_key']);
+
+    // Configuración de los destinatarios
+    $recipients = [
+        new Recipient($email, $nombre)
+    ];
+
+    // Configuración de los parámetros del correo electrónico
+    $emailParams = (new EmailParams())
+        ->setFrom('josueccenta@creativiq.site') // Cambia 'your@domain.com' por tu dirección de correo electrónico
+        ->setFromName('GRUPO 1') // Cambia 'Your Name' por tu nombre o el nombre de tu empresa
+        ->setRecipients($recipients)
+        ->setSubject($asunto)
+        ->setHtml($mensaje) // Utiliza el contenido HTML del mensaje
+        ->setText(strip_tags($mensaje)); // Utiliza una versión de solo texto del mensaje para clientes de correo que no admiten HTML
+
+    // Envía el correo electrónico
     try {
-        // Configuración del servidor SMTP
-        $mail->isSMTP();
-        $mail->Host       = 'smtp.zoho.com'; // Servidor SMTP de Zoho Mail
-        $mail->SMTPAuth   = true;
-        $mail->Username   = 'josueccenta@creativiq.site'; // Tu dirección de correo electrónico de Zoho Mail
-        $mail->Password   = 'z5gJtze1UAsy'; // Tu contraseña de Zoho Mail
-        $mail->SMTPSecure = 'ssl';
-        $mail->Port       = 465; // Puerto SMTP de Zoho Mail
-        
-        // Destinatario principal
-        $mail->setFrom('josueccenta@creativiq.site', 'GRUPO 1');
-        $mail->addAddress($email, $nombre); // Dirección de correo electrónico del destinatario principal
-        $mail->addCC($email);
-        
-        // Construir el mensaje
-        $mail->isHTML(true);
-        $mail->Subject = $asunto;
-        
-        // Cargar la plantilla HTML y reemplazar los marcadores de posición con los valores del formulario
-        $html_template = file_get_contents('plantilla_correo2.php');     
-        $html_template = str_replace('{{nombre}}', $nombre, $html_template);
-        $html_template = str_replace('{{email}}', $email, $html_template);
-        $html_template = str_replace('{{asunto}}', $asunto, $html_template);
-        $html_template = str_replace('{{mensaje}}', $mensaje, $html_template);
-
-        $mail->Body = $html_template;
-
-        // Agrega el archivo adjunto al correo electrónico, si se proporcionó uno
-        if (isset($adjunto_tmp) && isset($adjunto_nombre)) {
-            $mail->addAttachment($adjunto_tmp, $adjunto_nombre);
-        }
-        
-        // Enviar correo electrónico
-        $mail->send();
+        $mailerSend->email->send($emailParams);
 
         // Agregar información de éxito a la respuesta
         $response['status'] = 'success';
@@ -70,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } catch (Exception $e) { 
         // Agregar información de error a la respuesta
         $response['status'] = 'error';
-        $response['message'] = 'Error al enviar el formulario: ' . $mail->ErrorInfo;
+        $response['message'] = 'Error al enviar el formulario: ' . $e->getMessage();
     }
 } else {
     // Si el formulario no fue enviado por POST, agregar información de error a la respuesta
