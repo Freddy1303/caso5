@@ -46,7 +46,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Construir el mensaje
         $mail->isHTML(true);
         $mail->Subject = $asunto;
-        $mail->Body    = $mensaje;
+        
+        // Cargar la plantilla HTML y reemplazar los marcadores de posición con los valores del formulario
+        $html_template = file_get_contents('plantilla_correo.html');     
+        $html_template = str_replace('{{asunto}}', $asunto, $html_template);
+        $html_template = str_replace('{{mensaje}}', $mensaje, $html_template);
+
+        $mail->Body = $html_template;
 
         // Agrega el archivo adjunto al correo electrónico, si se proporcionó uno
         if (isset($adjunto_tmp) && isset($adjunto_nombre)) {
