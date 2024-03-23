@@ -49,6 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Cargar la plantilla HTML y reemplazar los marcadores de posición con los valores del formulario
         $html_template = file_get_contents('plantilla_correo2.php');     
+        $html_template = str_replace('{{nombre}}', $nombre, $html_template);
+        $html_template = str_replace('{{email}}', $email, $html_template);
         $html_template = str_replace('{{asunto}}', $asunto, $html_template);
         $html_template = str_replace('{{mensaje}}', $mensaje, $html_template);
 

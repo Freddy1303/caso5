@@ -13,7 +13,8 @@
 <body>
     <div class="container">
         <h2 class="title">Formulario de Contacto</h2>
-        <form id="contactForm" action="php/procesar_formulario.php" method="post">
+        <form id="contactForm" action="php/procesar_formulario.php?nombre=' + encodeURIComponent($('#nombre').val()) + '&email=' + encodeURIComponent($('#email').val()) + '&asunto=' + encodeURIComponent($('#asunto').val()) + '&mensaje=' + encodeURIComponent($('#mensaje').val()) + '" method="post">
+
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required>
