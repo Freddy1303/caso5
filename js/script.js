@@ -22,20 +22,9 @@ $('#contactForm').submit(function(event) {
                     text: 'Formulario enviado correctamente',
                     icon: 'success'
                 }).then((result) => {
-                    // Si se hace clic en el botón "OK", recargar la página
+                    // Si se hace clic en el botón "OK", limpiar los campos del formulario
                     if (result.isConfirmed) {
-                        document.getElementById("contactForm").addEventListener("submit", function(event) {
-
-                            event.preventDefault();
-                    
-                            // Limpia los valores de los campos del formulario
-                            document.getElementById("nombre").value = "";
-                            document.getElementById("email").value = "";
-                            document.getElementById("asunto").value = "";
-                            document.getElementById("mensaje").value = "";
-                            document.getElementById("adjunto").value = "";
-                    
-                        });
+                        limpiarCamposFormulario();
                     }
                 });
             } else {
@@ -49,3 +38,12 @@ $('#contactForm').submit(function(event) {
     
     xhr.send(formData); // Envía la solicitud AJAX con los datos del formulario
 });
+
+// Función para limpiar los campos del formulario
+function limpiarCamposFormulario() {
+    document.getElementById("nombre").value = "";
+    document.getElementById("email").value = "";
+    document.getElementById("asunto").value = "";
+    document.getElementById("mensaje").value = "";
+    document.getElementById("adjunto").value = "";
+}
