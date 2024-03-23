@@ -24,18 +24,7 @@ $('#contactForm').submit(function(event) {
                 }).then((result) => {
                     // Si se hace clic en el botón "OK", recargar la página
                     if (result.isConfirmed) {
-                        document.getElementById("contactForm").addEventListener("submit", function(event) {
-
-                            event.preventDefault();
-                    
-                            // Limpia los valores de los campos del formulario
-                            document.getElementById("nombre").value = "";
-                            document.getElementById("email").value = "";
-                            document.getElementById("asunto").value = "";
-                            document.getElementById("mensaje").value = "";
-                            document.getElementById("adjunto").value = "";
-                    
-                        });
+                        document.getElementById("contactForm").reset();
                     }
                 });
             } else {
