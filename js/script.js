@@ -1,16 +1,16 @@
 // Captura el evento de envío del formulario
 $('#contactForm').submit(function(event) {
     event.preventDefault(); // Evita el comportamiento predeterminado del formulario
-    
+
     var formData = new FormData(this); // Recolecta los datos del formulario
 
     // Desactivar el botón de enviar para evitar clics repetidos
     $('#contactForm input[type="submit"]').prop('disabled', true);
 
     var xhr = new XMLHttpRequest(); // Crea una nueva solicitud AJAX
-    
+
     xhr.open('POST', $(this).attr('action'), true); // Configura la solicitud AJAX
-    
+
     xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 400) {
             // Parsea la respuesta del servidor
@@ -22,9 +22,10 @@ $('#contactForm').submit(function(event) {
                     text: 'Formulario enviado correctamente',
                     icon: 'success'
                 }).then((result) => {
-                    // Si se hace clic en el botón "OK", limpiar los campos del formulario
+                    // Si se hace clic en el botón "OK", recargar la página
                     if (result.isConfirmed) {
-                        limpiarCamposFormulario();
+                        // Limpiar los campos del formulario
+                        $('#contactForm')[0].reset();
                     }
                 });
             } else {
@@ -35,15 +36,11 @@ $('#contactForm').submit(function(event) {
         // Habilitar nuevamente el botón de enviar después de recibir la respuesta del servidor
         $('#contactForm input[type="submit"]').prop('disabled', false);
     };
-    
+
     xhr.send(formData); // Envía la solicitud AJAX con los datos del formulario
 });
 
-// Función para limpiar los campos del formulario
-function limpiarCamposFormulario() {
-    document.getElementById("nombre").value = "";
-    document.getElementById("email").value = "";
-    document.getElementById("asunto").value = "";
-    document.getElementById("mensaje").value = "";
-    document.getElementById("adjunto").value = "";
-}
+// Limpia los campos del formulario al hacer clic en el botón "Limpiar"
+$('#limpiarFormulario').click(function() {
+    $('#contactForm')[0].reset();
+});
