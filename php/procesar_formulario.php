@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mail->Subject = $asunto;
         
         // Cargar la plantilla HTML y reemplazar los marcadores de posición con los valores del formulario
-        $html_template = file_get_contents('plantilla_correo.html');     
+        $html_template = file_get_contents('plantilla_correo2.html');     
         $html_template = str_replace('{{asunto}}', $asunto, $html_template);
         $html_template = str_replace('{{mensaje}}', $mensaje, $html_template);
 
